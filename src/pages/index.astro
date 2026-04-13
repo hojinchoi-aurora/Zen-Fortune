@@ -1,0 +1,324 @@
+---
+import Base from '@/layouts/Base.astro';
+import FortuneClient from '@/components/FortuneClient';
+import { todayKeyKST } from '@/lib/date';
+
+const today = todayKeyKST();
+const [yyyy, mm, dd] = today.split('-');
+const dateLabel = `${yyyy}.${mm}.${dd}`;
+
+const weekdayLabel = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'Asia/Seoul',
+  weekday: 'long',
+}).format(new Date()).toUpperCase();
+---
+<Base title="Zen Fortune | ROASTERY ZEN">
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="/roasteryzen_logo.png" alt="ROASTERY ZEN" />
+        <span class="brand-name">ROASTERY ZEN</span>
+      </div>
+      <span class="topbar-date">{dateLabel}</span>
+    </header>
+
+    <section class="meta">
+      <div class="rule">
+        <span class="rule-line"></span>
+        <span class="rule-text">No. — · {weekdayLabel}</span>
+      </div>
+      <span class="meta-sub">Today&apos;s Fortune</span>
+    </section>
+
+    <section class="quote-block">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <FortuneClient client:load />
+      <div class="byline">
+        <span class="byline-line"></span>
+        <span class="byline-text">a note from Zen</span>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-copy">
+        <span class="footer-cap">If it moved you</span>
+        <span class="footer-text">하루 한 번, 마음에 닿았다면</span>
+      </div>
+    </footer>
+  </main>
+
+  <style is:global>
+    .state-msg {
+      font-family: var(--font-quote);
+      font-size: 18px;
+      line-height: 28px;
+      color: var(--soft-muted);
+      letter-spacing: -0.005em;
+    }
+
+    .quote {
+      margin: 0;
+      font-family: var(--font-quote);
+      font-weight: 400;
+      font-size: 26px;
+      line-height: 40px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      word-break: keep-all;
+      white-space: pre-line;
+    }
+
+    .pairing {
+      margin-top: 56px;
+      padding: 20px 22px;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .pairing-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .pairing-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .pairing-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 26px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .pairing-note {
+      font-family: var(--font-ui-kr);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .pairing-mark {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--ink);
+    }
+
+    .like-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--button-bg);
+      color: var(--button-ink);
+      border: 0;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .like-btn:active {
+      transform: translateY(1px);
+    }
+
+    .like-btn:disabled {
+      cursor: default;
+      opacity: 0.92;
+    }
+
+    .like-btn.is-liked {
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--hairline-strong);
+      padding: 10px 14px;
+    }
+
+    .like-clover {
+      font-size: 18px;
+      line-height: 1;
+    }
+  </style>
+
+  <style>
+    .page {
+      min-height: 100vh;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 24px 28px 120px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .topbar-date {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--soft-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .meta {
+      margin-top: 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rule-line {
+      width: 24px;
+      height: 1px;
+      background: var(--ink);
+    }
+
+    .rule-text {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .meta-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .quote-block {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .quote-mark {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 72px;
+      line-height: 62px;
+      color: var(--ink);
+      letter-spacing: -0.04em;
+    }
+
+    .byline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .byline-line {
+      width: 18px;
+      height: 1px;
+      background: #c4c4c4;
+    }
+
+    .byline-text {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--soft-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .footer-cap {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--soft-muted);
+      text-transform: uppercase;
+    }
+
+    .footer-text {
+      font-family: var(--font-ui-kr);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+  </style>
+</Base>
