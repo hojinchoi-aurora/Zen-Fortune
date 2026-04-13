@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --ink: #0b0b0b;
+  --muted: #6b6b6b;
+  --soft-muted: #8a8a8a;
+  --hairline: #eeeeee;
+  --hairline-strong: #d4d4d4;
+  --button-bg: #0b0b0b;
+  --button-ink: #ffffff;
+  --tone-cream: #f4ead9;
+  --tone-warm: #8a7454;
+  --tone-deep: #1a1612;
+  --font-display: 'Fraunces', 'Noto Serif KR', serif;
+  --font-quote: 'Noto Serif KR', 'Fraunces', serif;
+  --font-ui: 'Inter Tight', 'Noto Sans KR', -apple-system, sans-serif;
+  --font-ui-kr: 'Noto Sans KR', 'Inter Tight', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}

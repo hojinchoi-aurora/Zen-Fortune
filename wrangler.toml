@@ -1,0 +1,11 @@
+name = "zen-fortune"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+# Secrets (set via dashboard or `wrangler pages secret put`):
+#   SUPABASE_URL
+#   SUPABASE_ANON_KEY
+#   SUPABASE_SERVICE_ROLE_KEY
+#   ADMIN_PASSWORD
+#   SESSION_SECRET
