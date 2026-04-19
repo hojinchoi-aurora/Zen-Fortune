@@ -133,24 +133,30 @@ export default function FortuneClient() {
         </div>
       )}
 
-      <button
-        type="button"
-        className={`like-btn${liked ? ' is-liked' : ''}`}
-        onClick={onLike}
-        disabled={liked || likeBusy}
-        aria-label={liked ? '좋아요 완료' : '좋아요'}
-      >
-        {liked ? (
-          <span className="like-clover" aria-hidden="true">🍀</span>
-        ) : (
-          <>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z" />
-            </svg>
-            <span>좋아요</span>
-          </>
-        )}
-      </button>
+      <div className="footer-bar">
+        <div className="footer-copy">
+          <span className="footer-cap">If it moved you</span>
+          <span className="footer-text">문구가 마음에 들었다면</span>
+        </div>
+        <button
+          type="button"
+          className={`like-btn${liked ? ' is-liked' : ''}`}
+          onClick={onLike}
+          disabled={liked || likeBusy}
+          aria-label={liked ? '좋아요 완료' : '좋아요'}
+        >
+          {liked ? (
+            <span className="like-clover" aria-hidden="true">🍀</span>
+          ) : (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z" />
+              </svg>
+              <span>좋아요</span>
+            </>
+          )}
+        </button>
+      </div>
     </>
   );
 }
