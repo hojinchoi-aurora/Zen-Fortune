@@ -11,8 +11,10 @@ import '@/styles/draw.css';
 
 type Phase = CafePhase;
 
-// Video is ~8s; reveal phase pads the on-screen caption hold time.
-const VIDEO_MS = 8000;
+// Names get sucked into the bean hopper before the brew starts.
+const SUCK_MS = 1200;
+// Video is ~10s; reveal phase pads the on-screen caption hold time.
+const VIDEO_MS = 10000;
 const REVEAL_MS = 1800;
 
 function hashStr(s: string): number {
@@ -61,14 +63,16 @@ export default function TumblerDraw() {
     setWinner(picked);
 
     clearTimers();
-    setPhase('playing');
+    setPhase('sucking');
 
-    // After the video finishes, hold on the cup and show caption.
     phaseTimers.current.push(
-      window.setTimeout(() => setPhase('reveal'), VIDEO_MS)
+      window.setTimeout(() => setPhase('playing'), SUCK_MS)
     );
     phaseTimers.current.push(
-      window.setTimeout(() => setPhase('settled'), VIDEO_MS + REVEAL_MS)
+      window.setTimeout(() => setPhase('reveal'), SUCK_MS + VIDEO_MS)
+    );
+    phaseTimers.current.push(
+      window.setTimeout(() => setPhase('settled'), SUCK_MS + VIDEO_MS + REVEAL_MS)
     );
   }, [phase, participants, seedText, clearTimers]);
 
@@ -175,6 +179,7 @@ export default function TumblerDraw() {
               <kbd>Space</kbd> 한 잔 내리기
             </>
           )}
+          {phase === 'sucking' && <>원두를 채우는 중…</>}
           {phase === 'playing' && <>한 잔 내리는 중…</>}
           {phase === 'reveal' && <>축하합니다 ☕</>}
           {phase === 'settled' && (
