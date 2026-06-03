@@ -78,26 +78,41 @@ export function mulberry32(seed: number) {
   };
 }
 
+// Draw weighting. Earned tickets set the base odds, but we soften the curve so
+// colleagues with fewer tickets still get a fair shot: every entry gets a
+// +DRAW_BIAS "bonus ticket" for the draw only (the ticket counts shown on
+// screen stay as-earned). Higher bias = flatter odds. At bias 1 the 5-vs-1
+// ticket gap narrows from 5× to 3×, and a 1-ticket holder's win chance rises
+// while a 5-ticket holder's drops a little.
+export const DRAW_BIAS = 1;
+
+export function drawWeight(count: number): number {
+  return count + DRAW_BIAS;
+}
+
 export function weightedPick(
   participants: Participant[],
   rand: () => number
 ): Participant | null {
   if (participants.length === 0) return null;
-  const total = participants.reduce((sum, p) => sum + p.count, 0);
+  const total = participants.reduce((sum, p) => sum + drawWeight(p.count), 0);
   if (total <= 0) return null;
   let r = rand() * total;
   for (const p of participants) {
-    r -= p.count;
+    r -= drawWeight(p.count);
     if (r <= 0) return p;
   }
   return participants[participants.length - 1];
 }
 
 export const DEMO_CSV = `이름,부서,응모권
-최호진, 디지털혁신팀, 1
-이혜원, 디자인부문, 5
-이규호, 콘텐츠제작팀, 5
-김민정, 글로벌상품기획팀, 4
-임은영, 국내상품기획팀, 3
-최지수, 브랜드디렉션팀, 2
-임승현, 재무팀, 2`;
+유동찬, 게임개발팀, 5
+임지영, 디지털혁신팀, 4
+문종인, 디지털혁신팀, 3
+정애림, 디지털혁신팀, 2
+심애림, 디지털혁신팀, 2
+박소미, 경영지원팀, 1
+최경규, 콘텐츠제작팀, 1
+박세호, 국내영업팀,1
+임승현, 재무팀, 1
+박소연, 오더운영팀, 1`;

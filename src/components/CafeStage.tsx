@@ -294,7 +294,7 @@ function FoamNameOverlay({
 function RevealCaption({ winner }: { winner: Participant }) {
   return (
     <div className="reveal-caption">
-      <div className="reveal-eyebrow">Today&apos;s Tumbler</div>
+      <div className="reveal-eyebrow">Prize Winner</div>
       <div className="reveal-line">
         <b className="reveal-name-inline">
           {winner.name}

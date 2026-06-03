@@ -156,9 +156,8 @@ export default function TumblerDraw() {
       <div className="draw-chrome-top">
         <div className="draw-eyebrow">
           <span className="draw-eyebrow-rule" />
-          <span className="draw-eyebrow-text">Townhall · Tumbler Draw</span>
+          <span className="draw-eyebrow-text">Tumbler Draw</span>
         </div>
-        <span className="draw-brand">Roastery Zen</span>
       </div>
 
       {/* Cafe scene (video + overlays) */}
@@ -167,27 +166,18 @@ export default function TumblerDraw() {
       {/* Bottom chrome */}
       <div className="draw-chrome-bottom">
         <div className="draw-stat">
-          <span className="draw-stat-label">Today&apos;s Orders</span>
+          <span className="draw-stat-label">추첨 대상자 수</span>
           <span className="draw-stat-value">
             {participants.length}
             <span className="unit">명</span>
           </span>
         </div>
-        <div className="draw-hint pulse">
-          {phase === 'idle' && (
-            <>
-              <kbd>Space</kbd> 한 잔 내리기
-            </>
-          )}
-          {phase === 'sucking' && <>원두를 채우는 중…</>}
-          {phase === 'playing' && <>한 잔 내리는 중…</>}
-          {phase === 'reveal' && <>축하합니다 ☕</>}
-          {phase === 'settled' && (
-            <>
-              <kbd>R</kbd> 다음 손님
-            </>
-          )}
-        </div>
+        {(phase === 'sucking' || phase === 'reveal') && (
+          <div className="draw-hint">
+            {phase === 'sucking' && <>원두를 채우는 중…</>}
+            {phase === 'reveal' && <>축하합니다 ☕</>}
+          </div>
+        )}
         <div className="draw-stat" style={{ textAlign: 'right' }}>
           <span className="draw-stat-label">Total Tickets</span>
           <span className="draw-stat-value">

@@ -74,53 +74,41 @@
 
 .idle-name {
   position: absolute;
-  display: inline-block;
-  padding: 10px 22px;
-  border-radius: 999px;
+  /* Real roasted-bean photo (background lifted via macOS Vision) — the same
+     bean that fills the grinder hopper. A fixed aspect keeps every bean
+     undistorted regardless of name length; the name is flex-centered on a
+     faint scrim so it stays legible across the bean's seam. */
+  width: 5.6em;
+  aspect-ratio: 1090 / 789;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background:
     radial-gradient(
-      ellipse at 35% 30%,
-      rgba(112, 70, 38, 0.95) 0%,
-      rgba(60, 32, 16, 0.96) 55%,
-      rgba(28, 14, 6, 0.96) 100%
-    );
-  border: 1px solid rgba(80, 50, 28, 0.55);
-  box-shadow:
-    0 3px 10px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 200, 140, 0.18),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.4);
+      ellipse 62% 32% at 50% 50%,
+      rgba(15, 8, 3, 0.38) 0%,
+      rgba(15, 8, 3, 0.2) 48%,
+      transparent 72%
+    ),
+    url('/coffee-bean.png') center / 100% 100% no-repeat;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
   font-family: var(--font-display), 'Noto Serif KR', serif;
-  font-weight: 500;
-  color: rgba(255, 238, 210, 0.97);
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  color: rgba(255, 242, 222, 0.98);
+  letter-spacing: -0.01em;
   text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.85),
-    0 0 8px rgba(0, 0, 0, 0.4);
+    0 0 2px rgba(0, 0, 0, 0.9),
+    0 1px 3px rgba(0, 0, 0, 0.95),
+    0 0 9px rgba(0, 0, 0, 0.55),
+    -1px 0 1px rgba(0, 0, 0, 0.7),
+    1px 0 1px rgba(0, 0, 0, 0.7),
+    0 1px 1px rgba(0, 0, 0, 0.7),
+    0 -1px 1px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   transform-origin: center;
   transform: translate(-50%, -50%) rotate(var(--rotation, 0deg));
   animation: float-bob var(--float-dur, 5s) ease-in-out var(--float-delay, 0s) infinite;
   will-change: transform, opacity, filter;
-}
-
-/* Coffee-bean crease — subtle dark line across the middle. */
-.idle-name::before {
-  content: '';
-  position: absolute;
-  left: 16%;
-  right: 16%;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.55) 18%,
-    rgba(0, 0, 0, 0.55) 82%,
-    transparent 100%
-  );
-  transform: translateY(-50%);
-  pointer-events: none;
-  opacity: 0.7;
 }
 
 @keyframes float-bob {
