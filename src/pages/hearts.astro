@@ -1,0 +1,23 @@
+---
+import Base from '@/layouts/Base.astro';
+import HeartsDraw from '@/components/HeartsDraw';
+---
+<Base title="공감의 하트 추첨 | 당신을 칭찬하오로라" bodyClass="hearts-body">
+  <HeartsDraw client:load />
+
+  <style is:global>
+    .hearts-body {
+      margin: 0;
+      padding: 0;
+      background: #0b0f2e;
+      color: #fbeff2;
+      overflow: hidden;
+      font-family: var(--font-ui-kr);
+      min-height: 100vh;
+    }
+
+    html:has(.hearts-body) {
+      background: #0b0f2e;
+    }
+  </style>
+</Base>

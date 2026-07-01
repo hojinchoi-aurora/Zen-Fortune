@@ -32,18 +32,27 @@ export function parseCsv(input: string): ParsedNames {
 
   dataRows.forEach((row, idx) => {
     const cols = splitRow(row);
-    if (cols.length < 2) {
-      warnings.push(`${idx + 1}행: 열이 부족합니다 → "${row}"`);
+    const name = cols[0];
+    if (!name) {
+      warnings.push(`${idx + 1}행: 이름이 비어 있습니다 → "${row}"`);
       return;
     }
-    const name = cols[0];
-    const hasDept = cols.length >= 3;
-    const department = hasDept ? cols[1] : undefined;
-    const countRaw = hasDept ? cols[2] : cols[1];
-    const count = Number(countRaw.replace(/[^\d.-]/g, ''));
-    if (!name || !Number.isFinite(count) || count <= 0) {
-      warnings.push(`${idx + 1}행: 이름·횟수 형식이 올바르지 않습니다 → "${row}"`);
-      return;
+    // A bare name (one column) counts as a single entry — lets operators
+    // paste a plain one-name-per-line roster with no department or count.
+    let department: string | undefined;
+    let count: number;
+    if (cols.length === 1) {
+      department = undefined;
+      count = 1;
+    } else {
+      const hasDept = cols.length >= 3;
+      department = hasDept ? cols[1] : undefined;
+      const countRaw = hasDept ? cols[2] : cols[1];
+      count = Number(countRaw.replace(/[^\d.-]/g, ''));
+      if (!Number.isFinite(count) || count <= 0) {
+        warnings.push(`${idx + 1}행: 횟수 형식이 올바르지 않습니다 → "${row}"`);
+        return;
+      }
     }
     const key = `${name}__${department ?? ''}`;
     const existing = seen.get(key);
@@ -103,6 +112,29 @@ export function weightedPick(
     if (r <= 0) return p;
   }
   return participants[participants.length - 1];
+}
+
+// Draw `count` distinct winners in one pass (sampling without replacement).
+// Each round removes the picked entry from the pool, so nobody wins twice.
+// Weighting still applies per round via weightedPick — with everyone on a
+// single entry (count 1) this reduces to equal odds, which is the default for
+// the 공감 draw. Returns fewer than `count` only if the pool is smaller.
+export function pickWinners(
+  participants: Participant[],
+  count: number,
+  rand: () => number
+): Participant[] {
+  const pool = participants.slice();
+  const winners: Participant[] = [];
+  const n = Math.min(Math.max(0, Math.floor(count)), pool.length);
+  for (let i = 0; i < n; i++) {
+    const picked = weightedPick(pool, rand);
+    if (!picked) break;
+    winners.push(picked);
+    const idx = pool.indexOf(picked);
+    if (idx >= 0) pool.splice(idx, 1);
+  }
+  return winners;
 }
 
 export const DEMO_CSV = `이름,부서,응모권

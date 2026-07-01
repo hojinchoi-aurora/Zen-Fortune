@@ -1,0 +1,23 @@
+---
+import Base from '@/layouts/Base.astro';
+import AuroraDraw from '@/components/AuroraDraw';
+---
+<Base title="오로라 밤하늘 추첨 | 당신을 칭찬하오로라" bodyClass="aurora-body">
+  <AuroraDraw client:load />
+
+  <style is:global>
+    .aurora-body {
+      margin: 0;
+      padding: 0;
+      background: #060a1f;
+      color: #eaf2ff;
+      overflow: hidden;
+      font-family: var(--font-ui-kr);
+      min-height: 100vh;
+    }
+
+    html:has(.aurora-body) {
+      background: #060a1f;
+    }
+  </style>
+</Base>
